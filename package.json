@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@better-auth/kysely-adapter": "^1.6.20",
     "@better-auth/stripe": "^1.6.20",
     "better-auth": "^1.6.20",
     "mongodb": "^7.3.0",

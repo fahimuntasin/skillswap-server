@@ -1,14 +1,6 @@
 import { betterAuth } from "better-auth"
-import { MongoClient } from "mongodb"
-
-const client = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:27017/skillswap")
-const db = client.db()
 
 export const auth = betterAuth({
-  database: {
-    db,
-    type: "mongodb",
-  },
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
@@ -48,3 +40,4 @@ export const auth = betterAuth({
     },
   },
 })
+
