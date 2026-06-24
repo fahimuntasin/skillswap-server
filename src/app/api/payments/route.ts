@@ -1,18 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
-import Stripe from "stripe"
 import { connectDB } from "@/lib/db"
 import { Payment } from "@/models/payment"
 import { Task } from "@/models/task"
 import { Proposal } from "@/models/proposal"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "")
+function getStripe() {
+  const Stripe = require("stripe")
+  return new Stripe(process.env.STRIPE_SECRET_KEY || "")
+}
 
 export async function POST(req: NextRequest) {
   try {
     await connectDB()
     const { taskId, proposalId, amount, clientEmail, freelancerEmail } = await req.json()
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: clientEmail,
@@ -36,7 +38,7 @@ export async function PUT(req: NextRequest) {
 
     if (!sessionId) return NextResponse.json({ error: "Missing session_id" }, { status: 400 })
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    const session = await getStripe().checkout.sessions.retrieve(sessionId)
     if (session.payment_status !== "paid") {
       return NextResponse.json({ error: "Payment not completed" }, { status: 400 })
     }
