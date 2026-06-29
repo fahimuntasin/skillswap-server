@@ -64,10 +64,7 @@
 [![Stripe](https://img.shields.io/badge/Stripe-Checkout-635BFF?style=flat-square&logo=stripe&logoColor=white)](https://stripe.com)
 [![Better Auth](https://img.shields.io/badge/Better_Auth-1.6-7C3AED?style=flat-square)](https://www.better-auth.com)
 
-<br/>
-
-<!-- Typing SVG -->
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&weight=500&size=20&duration=2800&pause=1200&color=7C3AED&center=true&vCenter=true&width=620&lines=RESTful+API+for+SkillSwap;Tasks+%E2%80%A2+Proposals+%E2%80%A2+Payments+%E2%80%A2+Reviews;Role-based+access+%E2%80%A2+Admin+analytics)](https://git.io/typing-svg)
+**RESTful API** · Tasks · Proposals · Payments · Reviews · Admin analytics
 
 </div>
 
@@ -129,41 +126,18 @@ The **SkillSwap Server** is the backend API powering the [SkillSwap](https://ski
 
 ## 🏗️ System Architecture
 
-```mermaid
-graph LR
-    subgraph Frontend["🖥️ Client App"]
-        FE[Next.js Frontend]
-    end
-
-    subgraph API["⚡ SkillSwap Server"]
-        AUTH["/api/auth"]
-        TASKS["/api/tasks"]
-        PROP["/api/proposals"]
-        PAY["/api/payments"]
-        ADMIN["/api/admin"]
-    end
-
-    subgraph Data["💾 Data Layer"]
-        DB[(MongoDB)]
-        STRIPE[Stripe API]
-    end
-
-    FE -->|HTTP| AUTH
-    FE -->|HTTP| TASKS
-    FE -->|HTTP| PROP
-    FE -->|HTTP| PAY
-    FE -->|HTTP| ADMIN
-
-    AUTH --> DB
-    TASKS --> DB
-    PROP --> DB
-    PAY --> DB
-    PAY --> STRIPE
-    ADMIN --> DB
-
-    style Frontend fill:#1e1b4b,stroke:#7C3AED,color:#e2e8f0
-    style API fill:#2d1b69,stroke:#a78bfa,color:#e2e8f0
-    style Data fill:#0f0f1a,stroke:#7C3AED,color:#e2e8f0
+```
+┌──────────────────┐         HTTP          ┌─────────────────────────────┐
+│  Next.js Client  │ ────────────────────▶ │      SkillSwap Server       │
+│    (Frontend)    │                       │  /api/auth    /api/tasks    │
+└──────────────────┘                       │  /api/proposals /api/payments│
+                                           │  /api/admin   /api/reviews  │
+                                           └──────────┬──────────┬───────┘
+                                                      │          │
+                                                      ▼          ▼
+                                               ┌──────────┐ ┌─────────┐
+                                               │ MongoDB  │ │ Stripe  │
+                                               └──────────┘ └─────────┘
 ```
 
 ---
